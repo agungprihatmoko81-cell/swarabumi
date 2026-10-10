@@ -1,0 +1,1075 @@
+<!DOCTYPE html>
+<html lang="id" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Swarabumi - Pustaka Etnopedagogi Digital</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome for Cultural & UI Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts: Plus Jakarta Sans & Playfair Display -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,800;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            gold: '#D4AF37',
+                            terracotta: '#C85A32',
+                            deepred: '#800020',
+                            earthDark: '#1C1917',
+                            earthCard: '#26221F',
+                            creamBg: '#FAF6F0',
+                            warmGray: '#F3EFEA',
+                            maroonBg: '#2D0B12',
+                        }
+                    },
+                    fontFamily: {
+                        serif: ['"Playfair Display"', 'serif'],
+                        sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* Songket Pattern Overlay Effect */
+        .songket-bg {
+            background-color: #2D0B12;
+            background-image: radial-gradient(#D4AF37 0.75px, transparent 0.75px), radial-gradient(#D4AF37 0.75px, #2D0B12 0.75px);
+            background-size: 30px 30px;
+            background-position: 0 0, 15px 15px;
+            opacity: 0.98;
+        }
+        .light-songket-bg {
+            background-color: #FAF6F0;
+            background-image: radial-gradient(#C85A32 0.5px, transparent 0.5px);
+            background-size: 20px 20px;
+        }
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: rgba(0, 0, 0, 0.05);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #C85A32;
+            border-radius: 4px;
+        }
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(12px);
+        }
+        .dark .glass-panel {
+            background: rgba(38, 34, 31, 0.85);
+            backdrop-filter: blur(12px);
+        }
+        /* Book page flip simulation animation */
+        .page-turn-right {
+            animation: turnRight 0.4s ease-out forwards;
+        }
+        .page-turn-left {
+            animation: turnLeft 0.4s ease-out forwards;
+        }
+        @keyframes turnRight {
+            0% { transform: rotateY(0deg); }
+            50% { transform: rotateY(-15deg) scale(0.98); }
+            100% { transform: rotateY(0deg); }
+        }
+        @keyframes turnLeft {
+            0% { transform: rotateY(0deg); }
+            50% { transform: rotateY(15deg) scale(0.98); }
+            100% { transform: rotateY(0deg); }
+        }
+    </style>
+</head>
+<body class="bg-brand-creamBg dark:bg-brand-earthDark text-slate-800 dark:text-slate-100 font-sans transition-colors duration-300 min-h-screen flex flex-col antialiased">
+
+    <header class="sticky top-0 z-40 w-full border-b border-amber-900/10 dark:border-amber-500/20 glass-panel shadow-sm transition-colors">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-20">
+                <!-- Logo & Brand -->
+                <div class="flex items-center gap-3 cursor-pointer" onclick="app.navigateTo('catalog')">
+                    <div class="w-11 h-11 rounded-xl bg-gradient-to-tr from-brand-deepred to-brand-terracotta flex items-center justify-center text-brand-gold shadow-md border border-brand-gold/30">
+                        <i class="fa-solid font-bold text-xl fa-book-open"></i>
+                    </div>
+                    <div>
+                        <span class="font-serif text-2xl font-extrabold tracking-wide text-brand-deepred dark:text-brand-gold block leading-tight">SWARABUMI</span>
+                        <span class="text-[10px] tracking-widest uppercase font-semibold text-amber-800 dark:text-amber-200/70 block">Pustaka Etnopedagogi Digital</span>
+                    </div>
+                </div>
+
+                <!-- Desktop Search & Navigation -->
+                <div class="hidden md:flex items-center space-x-6">
+                    <nav class="flex items-center gap-1 font-medium text-sm">
+                        <button onclick="app.navigateTo('catalog')" id="nav-catalog" class="px-3 py-2 rounded-lg text-brand-terracotta dark:text-brand-gold font-semibold bg-amber-50 dark:bg-amber-950/40 transition">
+                            <i class="fa-solid fa-compass mr-1.5"></i>Katalog Nusantara
+                        </button>
+                        <button onclick="app.navigateTo('history')" id="nav-history" class="px-3 py-2 rounded-lg hover:text-brand-terracotta dark:hover:text-brand-gold transition text-slate-600 dark:text-slate-300">
+                            <i class="fa-solid fa-clock-rotate-left mr-1.5"></i>Jejak Baca
+                        </button>
+                        <button onclick="app.navigateTo('about')" id="nav-about" class="px-3 py-2 rounded-lg hover:text-brand-terracotta dark:hover:text-brand-gold transition text-slate-600 dark:text-slate-300">
+                            <i class="fa-solid fa-graduation-cap mr-1.5"></i>Etnopedagogi
+                        </button>
+                    </nav>
+
+                    <div class="h-6 w-px bg-slate-300 dark:bg-slate-700"></div>
+
+                    <!-- Theme Toggle & Stats -->
+                    <div class="flex items-center gap-3">
+                        <button onclick="app.toggleTheme()" class="w-10 h-10 rounded-xl bg-amber-100/60 dark:bg-slate-800 text-amber-900 dark:text-amber-300 hover:scale-105 transition flex items-center justify-center" title="Ubah Tema">
+                            <i id="theme-icon" class="fa-solid fa-moon"></i>
+                        </button>
+                        
+                        <div class="flex items-center gap-2 bg-amber-50 dark:bg-amber-900/30 px-3 py-1.5 rounded-xl border border-amber-200 dark:border-amber-800/40">
+                            <i class="fa-solid fa-award text-brand-gold text-lg"></i>
+                            <span class="text-xs font-bold text-amber-900 dark:text-amber-200"><span id="user-points">120</span> XP</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Mobile Menu Button -->
+                <div class="md:hidden flex items-center gap-2">
+                    <button onclick="app.toggleTheme()" class="p-2 text-slate-700 dark:text-slate-200">
+                        <i id="mobile-theme-icon" class="fa-solid fa-moon"></i>
+                    </button>
+                    <button onclick="app.toggleMobileMenu()" class="p-2 text-slate-700 dark:text-slate-200">
+                        <i class="fa-solid fa-bars text-xl"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Menu Dropdown -->
+        <div id="mobile-menu" class="hidden md:hidden border-b border-amber-900/10 dark:border-amber-500/20 bg-brand-creamBg dark:bg-brand-earthDark px-4 pt-2 pb-4 space-y-2">
+            <button onclick="app.navigateTo('catalog'); app.toggleMobileMenu()" class="w-full text-left px-3 py-2 rounded-lg font-medium text-brand-terracotta dark:text-brand-gold bg-amber-50 dark:bg-amber-950/40">
+                <i class="fa-solid fa-compass mr-2"></i>Katalog Nusantara
+            </button>
+            <button onclick="app.navigateTo('history'); app.toggleMobileMenu()" class="w-full text-left px-3 py-2 rounded-lg font-medium text-slate-700 dark:text-slate-200">
+                <i class="fa-solid fa-clock-rotate-left mr-2"></i>Jejak Baca & Aktivitas
+            </button>
+            <button onclick="app.navigateTo('about'); app.toggleMobileMenu()" class="w-full text-left px-3 py-2 rounded-lg font-medium text-slate-700 dark:text-slate-200">
+                <i class="fa-solid fa-graduation-cap mr-2"></i>Tentang Etnopedagogi
+            </button>
+        </div>
+    </header>
+
+    <section id="hero-banner" class="songket-bg relative text-white py-12 lg:py-16 overflow-hidden border-b border-brand-gold/20 shadow-inner">
+        <div class="absolute -right-20 -bottom-20 opacity-10 pointer-events-none">
+            <i class="fa-solid fa-masks-theater text-[300px]"></i>
+        </div>
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="grid md:grid-cols-12 gap-8 items-center">
+                <div class="md:col-span-8 space-y-4">
+                    <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-brand-gold/20 border border-brand-gold/40 text-brand-gold text-xs font-semibold uppercase tracking-widest">
+                        <i class="fa-solid fa-feather-pointed"></i> Warisan Tradisi Lisan & Etnopedagogi
+                    </div>
+                    <h1 class="font-serif text-3xl sm:text-4xl lg:text-5xl font-extrabold leading-tight text-amber-100">
+                        Menjelajah Kearifan Lokal Melalui <span class="text-brand-gold italic">Buku Digital Interaktif</span>
+                    </h1>
+                    <p class="text-amber-100/80 text-sm sm:text-base max-w-2xl leading-relaxed">
+                        Rasakan pengalaman membaca sastra lisan, tembang, dan falsafah adat bertutur asli. Dilengkapi fitur *audio penutur*, *glosarium budaya pop-up*, serta *kuis HOTS* berbasis pembelajaran bermakna.
+                    </p>
+                    <!-- Search Input in Hero -->
+                    <div class="pt-2 max-w-xl">
+                        <div class="relative">
+                            <i class="fa-solid fa-magnifying-glass absolute left-4 top-1/2 -translate-y-1/2 text-slate-400"></i>
+                            <input type="text" id="hero-search-input" onkeyup="app.handleSearch(event)" placeholder="Cari judul buku, tradisi (Senjang, Guritan, Wayang), atau daerah..." class="w-full pl-11 pr-24 py-3.5 rounded-2xl bg-white/95 dark:bg-stone-900/90 text-slate-900 dark:text-white placeholder-slate-400 text-sm shadow-xl focus:outline-none focus:ring-2 focus:ring-brand-gold border border-amber-300/40">
+                            <button onclick="app.executeSearch()" class="absolute right-2 top-1/2 -translate-y-1/2 bg-brand-terracotta hover:bg-amber-700 text-white px-4 py-2 rounded-xl text-xs font-semibold transition">
+                                Cari
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="md:col-span-4 hidden md:flex justify-end">
+                    <div class="p-4 rounded-2xl bg-white/10 backdrop-blur-md border border-white/20 shadow-2xl transform rotate-2 hover:rotate-0 transition duration-300">
+                        <div class="flex items-center gap-3 border-b border-white/10 pb-3 mb-3">
+                            <i class="fa-solid fa-headphones text-brand-gold text-xl"></i>
+                            <div>
+                                <h4 class="text-xs font-bold text-amber-200 uppercase tracking-wider">Kutipan Sastra Lisan</h4>
+                                <p class="text-xs text-slate-300">Tembang Batanghari Sembilan</p>
+                            </div>
+                        </div>
+                        <p class="font-serif italic text-sm text-amber-100 leading-snug">
+                            "Kalaulah ada sumur di ladang, bolehlah kita menumpang mandi. Kalaulah ada umurku panjang, kelak bertemu kita kembali..."
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <main class="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        
+        <!-- View 1: Catalog View (Default) -->
+        <section id="view-catalog" class="space-y-8">
+            <!-- Filter Categories & Stats bar -->
+            <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-4 border-b border-slate-200 dark:border-stone-800">
+                <div class="flex flex-wrap items-center gap-2" id="filter-buttons">
+                    <!-- Dynamic Filters rendered via JS -->
+                </div>
+                <div class="text-xs text-slate-500 dark:text-slate-400 font-medium">
+                    Menampilkan <span id="book-count" class="font-bold text-brand-terracotta dark:text-brand-gold">0</span> koleksi buku budaya
+                </div>
+            </div>
+
+            <!-- Book Cards Grid -->
+            <div id="books-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                <!-- Book Cards will be rendered dynamically -->
+            </div>
+        </section>
+
+        <!-- View 2: History & Progress View -->
+        <section id="view-history" class="hidden space-y-8">
+            <div class="bg-white dark:bg-brand-earthCard rounded-3xl p-6 sm:p-8 border border-slate-200 dark:border-stone-800 shadow-sm">
+                <div class="flex items-center justify-between mb-6">
+                    <div>
+                        <h2 class="font-serif text-2xl font-bold text-brand-deepred dark:text-brand-gold">Jejak Literasi & Capaian</h2>
+                        <p class="text-xs sm:text-sm text-slate-500 dark:text-slate-400">Pantau progres membaca dan skor refleksi kuis etnopedagogi Anda.</p>
+                    </div>
+                    <button onclick="app.clearHistory()" class="text-xs text-red-500 hover:text-red-600 font-semibold flex items-center gap-1">
+                        <i class="fa-solid fa-trash-can"></i> Bersihkan Riwayat
+                    </button>
+                </div>
+
+                <!-- Stats summary -->
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+                    <div class="bg-amber-50/70 dark:bg-stone-900/60 p-4 rounded-2xl border border-amber-200/50 dark:border-stone-800">
+                        <span class="text-xs text-slate-500 block">Buku Dibaca</span>
+                        <span id="stat-read-count" class="font-serif text-2xl font-bold text-brand-terracotta dark:text-brand-gold">0</span>
+                    </div>
+                    <div class="bg-amber-50/70 dark:bg-stone-900/60 p-4 rounded-2xl border border-amber-200/50 dark:border-stone-800">
+                        <span class="text-xs text-slate-500 block">Kuis Dikerjakan</span>
+                        <span id="stat-quiz-count" class="font-serif text-2xl font-bold text-brand-terracotta dark:text-brand-gold">0</span>
+                    </div>
+                    <div class="bg-amber-50/70 dark:bg-stone-900/60 p-4 rounded-2xl border border-amber-200/50 dark:border-stone-800">
+                        <span class="text-xs text-slate-500 block">Total Poin XP</span>
+                        <span id="stat-xp-count" class="font-serif text-2xl font-bold text-brand-terracotta dark:text-brand-gold">120</span>
+                    </div>
+                    <div class="bg-amber-50/70 dark:bg-stone-900/60 p-4 rounded-2xl border border-amber-200/50 dark:border-stone-800">
+                        <span class="text-xs text-slate-500 block">Status Pembelajar</span>
+                        <span class="font-serif text-sm font-bold text-amber-800 dark:text-amber-200">Pena Muda Adat</span>
+                    </div>
+                </div>
+
+                <!-- History Timeline list -->
+                <h3 class="font-serif text-lg font-bold text-slate-800 dark:text-slate-100 mb-4">Riwayat Terakhir</h3>
+                <div id="history-list-container" class="space-y-3">
+                    <!-- Dynamic history items -->
+                </div>
+            </div>
+        </section>
+
+        <!-- View 3: About Etnopedagogi -->
+        <section id="view-about" class="hidden space-y-8">
+            <div class="bg-white dark:bg-brand-earthCard rounded-3xl p-6 sm:p-10 border border-slate-200 dark:border-stone-800 shadow-sm max-w-4xl mx-auto space-y-6">
+                <div class="text-center space-y-2">
+                    <span class="text-xs font-bold uppercase tracking-widest text-brand-terracotta dark:text-brand-gold">Konsep Belajar</span>
+                    <h2 class="font-serif text-3xl font-extrabold text-brand-deepred dark:text-brand-gold">Mengenal Etnopedagogi Digital</h2>
+                    <p class="text-sm text-slate-500 dark:text-slate-400 max-w-xl mx-auto">Mewujudkan *Deep Learning* melalui integrasi kearifan lokal, sastra lisan, dan nilai-nilai luhur Nusantara.</p>
+                </div>
+
+                <div class="grid md:grid-cols-2 gap-6 pt-4">
+                    <div class="p-5 rounded-2xl bg-amber-50/60 dark:bg-stone-900/60 border border-amber-200/40 dark:border-stone-800 space-y-2">
+                        <div class="w-10 h-10 rounded-xl bg-brand-terracotta text-white flex items-center justify-center font-bold">
+                            <i class="fa-solid fa-heart-pulse"></i>
+                        </div>
+                        <h3 class="font-serif font-bold text-lg text-slate-800 dark:text-slate-200">Sastra Lisan Interaktif</h3>
+                        <p class="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
+                            Akses rekaman otentik *Senjang, Guritan*, dan *Tembang Batanghari Sembilan* langsung saat membaca buku untuk mengasah kepekaan audiotori dan apresiasi seni lisan.
+                        </p>
+                    </div>
+
+                    <div class="p-5 rounded-2xl bg-amber-50/60 dark:bg-stone-900/60 border border-amber-200/40 dark:border-stone-800 space-y-2">
+                        <div class="w-10 h-10 rounded-xl bg-brand-gold text-amber-950 flex items-center justify-center font-bold">
+                            <i class="fa-solid fa-brain"></i>
+                        </div>
+                        <h3 class="font-serif font-bold text-lg text-slate-800 dark:text-slate-200">Penilaian HOTS & Refleksi</h3>
+                        <p class="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
+                            Setiap buku dilengkapi soal penalaran tingkat tinggi (Higher Order Thinking Skills) dan esai refleksi kontekstual untuk melatih pemikiran kritis peserta didik.
+                        </p>
+                    </div>
+
+                    <div class="p-5 rounded-2xl bg-amber-50/60 dark:bg-stone-900/60 border border-amber-200/40 dark:border-stone-800 space-y-2">
+                        <div class="w-10 h-10 rounded-xl bg-brand-deepred text-white flex items-center justify-center font-bold">
+                            <i class="fa-solid fa-language"></i>
+                        </div>
+                        <h3 class="font-serif font-bold text-lg text-slate-800 dark:text-slate-200">Glosarium Multilingual</h3>
+                        <p class="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
+                            Fitur alih bahasa (*Dual Language*) dan pop-up arti istilah lokal memudahkan eksplorasi kata-kata kiasan adat tanpa kehilangan konteks aslinya.
+                        </p>
+                    </div>
+
+                    <div class="p-5 rounded-2xl bg-amber-50/60 dark:bg-stone-900/60 border border-amber-200/40 dark:border-stone-800 space-y-2">
+                        <div class="w-10 h-10 rounded-xl bg-amber-800 text-white flex items-center justify-center font-bold">
+                            <i class="fa-solid fa-scale-balanced"></i>
+                        </div>
+                        <h3 class="font-serif font-bold text-lg text-slate-800 dark:text-slate-200">Falsafah Simbur Cahaya</h3>
+                        <p class="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
+                            Mengenalkan sistem norma, etika, dan hukum adat lokal sebagai landasan karakter generasi muda yang beradab dan berwawasan lingkungan.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <div id="reader-modal" class="fixed inset-0 z-50 hidden bg-black/80 backdrop-blur-md flex items-center justify-center p-2 sm:p-4 overflow-y-auto">
+        <div class="bg-brand-creamBg dark:bg-stone-900 w-full max-w-5xl rounded-3xl shadow-2xl border border-brand-gold/30 flex flex-col max-h-[92vh] overflow-hidden">
+            
+            <!-- Modal Header Toolbar -->
+            <div class="px-4 py-3 bg-brand-deepred text-white flex items-center justify-between border-b border-brand-gold/20">
+                <div class="flex items-center gap-3">
+                    <button onclick="app.closeReaderModal()" class="w-8 h-8 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center text-white transition">
+                        <i class="fa-solid fa-arrow-left"></i>
+                    </button>
+                    <div>
+                        <h3 id="modal-book-title" class="font-serif font-bold text-sm sm:text-base text-amber-100 truncate max-w-xs sm:max-w-md">Judul Buku</h3>
+                        <span id="modal-book-category" class="text-[10px] text-amber-200/80 uppercase tracking-wider block">Kategori Budaya</span>
+                    </div>
+                </div>
+
+                <div class="flex items-center gap-2">
+                    <!-- Dual Language Toggle -->
+                    <button id="btn-lang-toggle" onclick="app.toggleBookLanguage()" class="px-3 py-1 rounded-full bg-amber-500/20 border border-amber-400/30 text-amber-200 text-xs font-semibold hover:bg-amber-500/30 transition flex items-center gap-1.5">
+                        <i class="fa-solid fa-globe"></i> <span id="current-lang-label">Bahasa Indonesia</span>
+                    </button>
+
+                    <!-- Open Quiz Button -->
+                    <button onclick="app.openQuizForCurrentBook()" class="px-3 py-1 rounded-full bg-brand-gold text-amber-950 text-xs font-bold hover:bg-amber-400 transition flex items-center gap-1 shadow-md">
+                        <i class="fa-solid fa-pen-ruler"></i> Kuis HOTS
+                    </button>
+                </div>
+            </div>
+
+            <!-- Modal Content Layout (Page viewer + Audio Sidebar) -->
+            <div class="flex-grow flex flex-col md:flex-row overflow-hidden relative">
+                
+                <!-- Main Flipbook Viewer Canvas -->
+                <div class="flex-grow flex flex-col justify-between p-4 sm:p-6 bg-stone-100 dark:bg-stone-950/80 overflow-y-auto">
+                    
+                    <!-- Page Card Container -->
+                    <div id="flipbook-page-card" class="bg-white dark:bg-brand-earthCard rounded-2xl p-6 sm:p-8 shadow-md border border-amber-900/10 dark:border-stone-800 min-h-[340px] flex flex-col justify-between relative transition-all">
+                        
+                        <!-- Page Header Info -->
+                        <div class="flex items-center justify-between border-b border-amber-900/10 dark:border-stone-800 pb-3 mb-4">
+                            <span class="text-[11px] font-bold uppercase tracking-widest text-brand-terracotta dark:text-brand-gold" id="page-section-tag">
+                                BAGIAN I: PENDAHULUAN
+                            </span>
+                            <span class="text-xs font-semibold text-slate-400" id="page-number-indicator">
+                                Halaman 1 dari 4
+                            </span>
+                        </div>
+
+                        <!-- Page Body Text Content -->
+                        <div id="page-text-content" class="prose dark:prose-invert max-w-none text-slate-700 dark:text-slate-200 text-sm sm:text-base leading-relaxed space-y-4">
+                            <!-- Injected Page Paragraphs with Clickable Cultural Glossary Terms -->
+                        </div>
+
+                        <!-- Cultural Glossary Pop-up Box (In-Page) -->
+                        <div id="glossary-popup" class="hidden mt-4 p-4 rounded-xl bg-amber-50 dark:bg-amber-950/50 border border-brand-gold/40 text-xs space-y-1 relative animate-fade-in">
+                            <button onclick="app.closeGlossaryPopup()" class="absolute top-2 right-2 text-amber-800 dark:text-amber-200 font-bold hover:text-red-500">
+                                &times;
+                            </button>
+                            <div class="flex items-center gap-2 text-brand-terracotta dark:text-brand-gold font-bold">
+                                <i class="fa-solid fa-book-bookmark"></i>
+                                <span id="glossary-term-title">Istilah Budaya</span>
+                            </div>
+                            <p id="glossary-term-desc" class="text-slate-600 dark:text-slate-300 italic">
+                                Penjelasan arti istilah lokal akan muncul di sini.
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Flipbook Controls Bar -->
+                    <div class="flex items-center justify-between mt-4 px-2">
+                        <button onclick="app.prevPage()" id="btn-prev-page" class="px-4 py-2 rounded-xl bg-white dark:bg-stone-800 border border-slate-200 dark:border-stone-700 text-slate-700 dark:text-slate-200 text-xs font-semibold hover:bg-amber-50 dark:hover:bg-stone-700 transition flex items-center gap-2">
+                            <i class="fa-solid fa-chevron-left"></i> Sebelumnya
+                        </button>
+
+                        <!-- Progress Bar -->
+                        <div class="flex-grow max-w-xs mx-4">
+                            <div class="w-full bg-slate-200 dark:bg-stone-800 h-2 rounded-full overflow-hidden">
+                                <div id="reading-progress-bar" class="bg-brand-gold h-full w-1/4 transition-all duration-300"></div>
+                            </div>
+                        </div>
+
+                        <button onclick="app.nextPage()" id="btn-next-page" class="px-4 py-2 rounded-xl bg-brand-terracotta hover:bg-amber-700 text-white text-xs font-semibold transition flex items-center gap-2 shadow-sm">
+                            Selanjutnya <i class="fa-solid fa-chevron-right"></i>
+                        </button>
+                    </div>
+
+                </div>
+
+                <!-- Right Sidebar: Audio Narrator & Cultural Context -->
+                <div class="w-full md:w-80 border-t md:border-t-0 md:border-l border-amber-900/10 dark:border-stone-800 p-4 sm:p-5 bg-amber-50/40 dark:bg-stone-900 flex flex-col justify-between space-y-4">
+                    
+                    <div>
+                        <div class="flex items-center gap-2 mb-3">
+                            <i class="fa-solid fa-record-vinyl text-brand-terracotta dark:text-brand-gold text-lg animate-spin-slow"></i>
+                            <h4 class="font-serif font-bold text-sm text-slate-800 dark:text-slate-200">Penutur Sastra Lisan</h4>
+                        </div>
+
+                        <!-- Audio Player Box -->
+                        <div class="bg-white dark:bg-brand-earthCard p-4 rounded-2xl border border-amber-200 dark:border-stone-800 space-y-3 shadow-sm">
+                            <div class="flex items-center justify-between">
+                                <span id="audio-track-name" class="text-xs font-bold text-slate-700 dark:text-amber-200 truncate">Alunan Senjang Tradisional</span>
+                                <span class="text-[10px] bg-amber-100 dark:bg-amber-950 text-amber-800 dark:text-amber-300 px-2 py-0.5 rounded-full font-semibold">Audio HD</span>
+                            </div>
+
+                            <!-- Audio Waves Simulation -->
+                            <div class="flex items-center justify-center gap-1 h-8 my-2">
+                                <div class="audio-wave-bar w-1 bg-brand-terracotta h-3 rounded-full"></div>
+                                <div class="audio-wave-bar w-1 bg-brand-gold h-6 rounded-full"></div>
+                                <div class="audio-wave-bar w-1 bg-brand-terracotta h-4 rounded-full"></div>
+                                <div class="audio-wave-bar w-1 bg-brand-gold h-7 rounded-full"></div>
+                                <div class="audio-wave-bar w-1 bg-brand-terracotta h-2 rounded-full"></div>
+                            </div>
+
+                            <!-- Play/Pause Control -->
+                            <div class="flex items-center justify-center gap-3">
+                                <button onclick="app.toggleAudio()" id="btn-audio-play" class="w-12 h-12 rounded-full bg-brand-terracotta hover:bg-amber-700 text-white flex items-center justify-center text-lg shadow-lg transition transform hover:scale-105">
+                                    <i class="fa-solid fa-play"></i>
+                                </button>
+                            </div>
+                            <p class="text-[11px] text-center text-slate-400 italic">Dengarkan alunan otentik untuk memicu apresiasi musikal budaya.</p>
+                        </div>
+                    </div>
+
+                    <!-- Cultural Value Box -->
+                    <div class="p-4 rounded-2xl bg-brand-gold/10 border border-brand-gold/30 space-y-1.5">
+                        <div class="flex items-center gap-2 text-brand-deepred dark:text-brand-gold font-bold text-xs">
+                            <i class="fa-solid fa-landmark"></i>
+                            <span>Nilai Etnopedagogi</span>
+                        </div>
+                        <p id="page-pedagogy-note" class="text-xs text-slate-600 dark:text-slate-300 leading-snug">
+                            Penekanan pada penghormatan terhadap alam dan kejujuran tutur kata.
+                        </p>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <div id="quiz-modal" class="fixed inset-0 z-50 hidden bg-black/80 backdrop-blur-md flex items-center justify-center p-4 overflow-y-auto">
+        <div class="bg-white dark:bg-brand-earthCard w-full max-w-2xl rounded-3xl shadow-2xl border border-brand-gold/40 p-6 sm:p-8 space-y-6">
+            
+            <div class="flex items-center justify-between border-b border-slate-200 dark:border-stone-800 pb-4">
+                <div>
+                    <span class="text-xs font-bold text-brand-terracotta dark:text-brand-gold uppercase tracking-wider">Modul Evaluasi HOTS</span>
+                    <h3 id="quiz-title" class="font-serif text-xl font-bold text-slate-800 dark:text-slate-100">Kuis Refleksi Etnopedagogi</h3>
+                </div>
+                <button onclick="app.closeQuizModal()" class="w-8 h-8 rounded-full bg-slate-100 dark:bg-stone-800 text-slate-500 hover:text-slate-800 dark:hover:text-white flex items-center justify-center">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+
+            <!-- Quiz Container -->
+            <div id="quiz-content" class="space-y-6">
+                <!-- Multiple Choice Question -->
+                <div class="space-y-3">
+                    <div class="flex items-center gap-2 text-xs font-semibold text-slate-400">
+                        <span class="w-5 h-5 rounded-full bg-brand-gold text-amber-950 flex items-center justify-center text-[10px] font-bold">1</span>
+                        <span>Soal Penalaran Kritis (HOTS)</span>
+                    </div>
+                    <p id="quiz-question-text" class="text-sm sm:text-base font-semibold text-slate-800 dark:text-slate-200">
+                        Mengapa tradisi tutur Senjang dan Tembang Batanghari Sembilan penting untuk dilestarikan oleh generasi muda di era serba digital?
+                    </p>
+
+                    <div id="quiz-options-container" class="space-y-2 pt-2">
+                        <!-- Dynamic Options rendered via JS -->
+                    </div>
+                </div>
+
+                <!-- Immediate Feedback Message -->
+                <div id="quiz-feedback" class="hidden p-4 rounded-2xl border text-xs leading-relaxed"></div>
+
+                <!-- Reflective Essay Prompt -->
+                <div class="space-y-2 border-t border-slate-200 dark:border-stone-800 pt-4">
+                    <label class="block text-xs font-bold text-slate-700 dark:text-slate-300">
+                        <i class="fa-solid fa-pen-fancy text-brand-terracotta mr-1"></i> Refleksi Kontekstual (Nilai Sikap):
+                    </label>
+                    <textarea id="quiz-reflective-input" rows="3" placeholder="Tuliskan bagaimana Anda dapat menerapkan nilai moral cerita ini dalam kehidupan sehari-hari..." class="w-full p-3 rounded-xl bg-slate-50 dark:bg-stone-900 border border-slate-200 dark:border-stone-800 text-xs text-slate-800 dark:text-slate-200 focus:outline-none focus:ring-2 focus:ring-brand-gold"></textarea>
+                </div>
+
+                <!-- Submit Button -->
+                <div class="flex justify-end gap-3 pt-2">
+                    <button onclick="app.submitQuiz()" class="px-6 py-2.5 rounded-xl bg-brand-terracotta hover:bg-amber-700 text-white font-bold text-xs transition shadow-lg flex items-center gap-2">
+                        <i class="fa-solid fa-paper-plane"></i> Kirim Jawaban & Klaim XP
+                    </button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <footer class="bg-brand-maroonBg text-amber-100/80 border-t border-brand-gold/30 mt-16 py-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid md:grid-cols-12 gap-8">
+            <div class="md:col-span-5 space-y-3">
+                <div class="flex items-center gap-2">
+                    <div class="w-8 h-8 rounded-lg bg-brand-gold text-amber-950 flex items-center justify-center font-bold">
+                        <i class="fa-solid fa-book-open"></i>
+                    </div>
+                    <span class="font-serif font-extrabold text-xl text-brand-gold">SWARABUMI</span>
+                </div>
+                <p class="text-xs text-amber-200/70 leading-relaxed max-w-sm">
+                    Platform Pustaka Etnopedagogi Digital interaktif. Dirancang untuk melestarikan tradisi lisan, norma adat, dan karya sastra Nusantara melalui pembelajaran bermakna (*deep learning*).
+                </p>
+            </div>
+
+            <div class="md:col-span-3 space-y-2 text-xs">
+                <h4 class="font-serif font-bold text-brand-gold text-sm uppercase tracking-wider">Materi Kebudayaan</h4>
+                <ul class="space-y-1.5 text-amber-200/80">
+                    <li><a href="#" onclick="app.filterByCategory('Tradisi Lisan')" class="hover:text-brand-gold transition">Tradisi Lisan (Senjang & Guritan)</a></li>
+                    <li><a href="#" onclick="app.filterByCategory('Seni Pertunjukan')" class="hover:text-brand-gold transition">Wayang Palembang & Teater Adat</a></li>
+                    <li><a href="#" onclick="app.filterByCategory('Musik Tradisional')" class="hover:text-brand-gold transition">Tembang Batanghari Sembilan</a></li>
+                    <li><a href="#" onclick="app.filterByCategory('Hukum Adat')" class="hover:text-brand-gold transition">Falsafah Simbur Cahaya</a></li>
+                </ul>
+            </div>
+
+            <div class="md:col-span-4 space-y-3 text-xs">
+                <h4 class="font-serif font-bold text-brand-gold text-sm uppercase tracking-wider">Apresiasi Budaya</h4>
+                <p class="text-amber-200/70 leading-relaxed">
+                    "Memahami akar sejarah dan budaya sendiri adalah kompas utama untuk melangkah secara bijak di era modern."
+                </p>
+                <div class="pt-2 text-[11px] text-amber-300/50">
+                    &copy; 2026 Platform Swarabumi Etnopedagogi. Hak Cipta Dilindungi.
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        /* Sample Dummy Database of Local Cultural E-Books */
+        const BOOKS_DATABASE = [
+            {
+                id: 'b1',
+                title: 'Alunan Senjang: Petuah Danau Ranau',
+                category: 'Tradisi Lisan',
+                region: 'Sumatera Selatan',
+                author: 'Sutan Sastera & Tim Adat',
+                coverImg: 'https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?auto=format&fit=crop&w=600&q=80',
+                synopsis: 'E-book interaktif yang mengupas tradisi Senjang—seni bertutur berirama yang sarat nasihat sosial, norma sopan santun, dan nilai etnopedagogi masyarakat Musi.',
+                audioTrack: 'Audio Senjang Otentik',
+                pages: [
+                    {
+                        sectionTag: 'BAGIAN I: MENGENAL SENJANG',
+                        indonesian: 'Senjang merupakan salah satu bentuk <span class="glossary-link border-b-2 border-brand-terracotta cursor-pointer font-semibold text-brand-terracotta dark:text-brand-gold" onclick="app.showGlossary(\'Senjang\', \'Seni tutur sastra lisan khas Sumatera Selatan yang disampaikan secara berirama antara penutur dan pendengar untuk menyampaikan nasihat atau sindiran halus.\')">Senjang</span> tradisi lisan yang paling dihormati. Bertutur dalam Senjang tidak sekadar menyampaikan kata, melainkan merajai irama dan kiasan adat yang dalam.',
+                        regional: 'Senjang iko adolah bagian tradisi lisan nang diohormati nian. Metutur dalam Senjang dak cuma nyampaikan kato, tapi ngatur irama dan kiasan adat nang dalem.',
+                        pedagogy: 'Menanamkan etika berkomunikasi, kesantunan bertutur, dan penghormatan kepada orang tua.',
+                    },
+                    {
+                        sectionTag: 'BAGIAN II: BAIT PASAN DAN NASIHAT',
+                        indonesian: 'Dalam setiap baitnya, penutur menyisipkan nilai <span class="glossary-link border-b-2 border-brand-terracotta cursor-pointer font-semibold text-brand-terracotta dark:text-brand-gold" onclick="app.showGlossary(\'Simbur Cahaya\', \'Kitab undang-undang hukum adat Sumatera Selatan yang memuat aturan moral, etika kemasyarakatan, dan kelestarian lingkungan.\')">Simbur Cahaya</span>, mengingatkan kaum muda untuk senantiasa menjaga kebersihan hati dan kelestarian alam lingkungan sekitar.',
+                        regional: 'Dalam tiap baitnyo, penutur nyisipke nilai Simbur Cahaya, ngingatke mudo-mudi untuk selalo njago kebersihan ati dan kelestarian alam.',
+                        pedagogy: 'Kearifan ekologis (pembelajaran berbasis kesadaran lingkungan lokal).',
+                    },
+                    {
+                        sectionTag: 'BAGIAN III: APRESIASI AUDIOTORI',
+                        indonesian: 'Dengarkan alunan petikan gambus dan tuturan Senjang pada menu audio di sebelah kanan. Perhatikan bagaimana jeda ritme digunakan untuk memberikan ruang refleksi bagi para pendengar.',
+                        regional: 'Dengar alunan petik gambus dan tutur Senjang di sebelah kanan. Perhatike cakmano jeda irama dipake untuk wadah perenungan.',
+                        pedagogy: 'Mengembangkan daya simak kritis dan sensitivitas seni musik daerah.',
+                    }
+                ],
+                quiz: {
+                    question: 'Bagaimana peran tradisi Senjang dalam menjaga keharmonisan sosial masyarakat lokal?',
+                    options: [
+                        { text: 'Sebagai sarana hiburan tanpa makna', correct: false },
+                        { text: 'Sebagai media penyampaian kritik sosial dan nasihat moral secara santun berkias', correct: true },
+                        { text: 'Sebagai sarana komersial pamer kekayaan', correct: false },
+                        { text: 'Sebagai pengganti hukum pidana formal', correct: false }
+                    ],
+                    feedbackCorrect: 'Benar sekali! Senjang berfungsi sebagai instrumen kontrol sosial yang efektif melalui penyampaian sindiran dan nasihat secara terstruktur dan santun.',
+                    feedbackWrong: 'Kurang tepat. Coba cermati kembali fungsi sastra lisan sebagai media edukasi dan nasihat moral di dalam masyarakat.'
+                }
+            },
+            {
+                id: 'b2',
+                title: 'Wayang Palembang: Lakon Sriwijaya',
+                category: 'Seni Pertunjukan',
+                region: 'Kota Palembang',
+                author: 'Dalang Mangku Adat',
+                coverImg: 'https://images.unsplash.com/photo-1514533450685-4493e01d1fdc?auto=format&fit=crop&w=600&q=80',
+                synopsis: 'Dokumentasi etnopedagogi seni Wayang Palembang yang memadukan kebudayaan Melayu dan Jawa, dengan keunikan bahasa melayu Palembang halus.',
+                audioTrack: 'Gamelan Wayang Palembang',
+                pages: [
+                    {
+                        sectionTag: 'BAGIAN I: SEJARAH DAN KEUNIKAN',
+                        indonesian: '<span class="glossary-link border-b-2 border-brand-terracotta cursor-pointer font-semibold text-brand-terracotta dark:text-brand-gold" onclick="app.showGlossary(\'Wayang Palembang\', \'Seni pertunjukan wayang kulit khas Palembang yang menggunakan Bahasa Melayu Palembang dalam dialognya.\')">Wayang Palembang</span> adalah akulturasi budaya yang unik. Tokoh-tokoh wayang digerakkan dengan dialog berbahasa Palembang yang penuh kehalusan budi.',
+                        regional: 'Wayang Palembang adolah perpaduan budaya nang unik. Tokoh wayang digerakksan dengen baso Palembang nang alus nian.',
+                        pedagogy: 'Sikap toleransi dan sintesis budaya yang harmonis.',
+                    },
+                    {
+                        sectionTag: 'BAGIAN II: ETIKA KEPEMIMPINAN',
+                        indonesian: 'Kisah-kisah Wayang Palembang sering kali mengajarkan kepemimpinan yang berlandaskan keadilan, kejujuran, dan pengorbanan demi kejahteraan rakyat banyak.',
+                        regional: 'Kisah Wayang Palembang sering ngajarke kepemimpinan adil, jujur, dan pengorbanan demi wong banyak.',
+                        pedagogy: 'Pendidikan karakter kepemimpinan berwawasan wiyata mandiri.',
+                    }
+                ],
+                quiz: {
+                    question: 'Pelajaran etnopedagogi utama dari keberadaan Wayang Palembang adalah...',
+                    options: [
+                        { text: 'Pentingnya mengisolasi budaya dari pengaruh luar', correct: false },
+                        { text: 'Kemampuan beradaptasi dan melakukan dialog antarbudaya tanpa kehilangan identitas lokal', correct: true },
+                        { text: 'Meninggalkan tradisi lama untuk budaya modern', correct: false }
+                    ],
+                    feedbackCorrect: 'Tepat! Akulturasi Wayang Palembang membuktikan kearifan lokal yang bersifat terbuka dan adaptif.',
+                    feedbackWrong: 'Jawaban kurang tepat. Perhatikan nilai akulturasi yang ada pada Wayang Palembang.'
+                }
+            },
+            {
+                id: 'b3',
+                title: 'Kidung Tembang Batanghari Sembilan',
+                category: 'Musik Tradisional',
+                region: 'Sumatera Selatan',
+                author: 'Pustaka Budaya Nusantara',
+                coverImg: 'https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?auto=format&fit=crop&w=600&q=80',
+                synopsis: 'Eksplorasi petikan gitar tunggal dan bait-bait pantun Tembang Batanghari Sembilan yang menggambarkan keindahan alam sembilan anak sungai.',
+                audioTrack: 'Gitar Tunggal Batanghari Sembilan',
+                pages: [
+                    {
+                        sectionTag: 'BAGIAN I: PESONA BATANGHARI SEMBILAN',
+                        indonesian: 'Gaya petikan <span class="glossary-link border-b-2 border-brand-terracotta cursor-pointer font-semibold text-brand-terracotta dark:text-brand-gold" onclick="app.showGlossary(\'Batanghari Sembilan\', \'Istilah kebudayaan yang merujuk pada sembilan anak sungai utama di Sumatera Selatan serta irama musik gitar tunggal khasnya.\')">Batanghari Sembilan</span> melambangkan aliran kehidupan masyarakat sungai yang tenang namun meliuk dinamis.',
+                        regional: 'Petikan Batanghari Sembilan melambangke aliran idup masyarakat sungai nang tenang tapi dinamis.',
+                        pedagogy: 'Keterikatan emosional positif terhadap keindahan geografi lokal.',
+                    }
+                ],
+                quiz: {
+                    question: 'Mengapa sungai menjadi simbol utama dalam Tembang Batanghari Sembilan?',
+                    options: [
+                        { text: 'Karena sungai adalah urat nadi kehidupan, transportasi, dan identitas sosial masyarakat lokal', correct: true },
+                        { text: 'Hanya karena sungai tempat menangkap ikan', correct: false },
+                        { text: 'Sebab sungai tidak memiliki bahaya', correct: false }
+                    ],
+                    feedbackCorrect: 'Sangat baik! Sungai merupakan pusat peradaban dan sumber inspirasi sastra lisan lokal.',
+                    feedbackWrong: 'Coba cermati peran strategis sungai dalam sejarah peradaban Nusantara.'
+                }
+            },
+            {
+                id: 'b4',
+                title: 'Guritan Besemah: Falsafah Gunung Dempo',
+                category: 'Tradisi Lisan',
+                region: 'Pagar Alam / Besemah',
+                author: 'Lembaga Adat Besemah',
+                coverImg: 'https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=600&q=80',
+                synopsis: 'Puisi panjang tradisi Guritan yang dilantunkan semalam suntuk, mengisahkan ketangguhan, kejujuran, dan keberanian para leluhur.',
+                audioTrack: 'Lantunan Guritan Besemah',
+                pages: [
+                    {
+                        sectionTag: 'BAGIAN I: HIKMAH GURITAN',
+                        indonesian: '<span class="glossary-link border-b-2 border-brand-terracotta cursor-pointer font-semibold text-brand-terracotta dark:text-brand-gold" onclick="app.showGlossary(\'Guritan\', \'Sastra lisan berbentuk puisi naratif panjang dari dataran tinggi Besemah yang dilantunkan tanpa iringan musik.\')">Guritan</span> mengajarkan bahwa keteguhan mental setegar dataran tinggi adalah modal utama menghadapi tantangan zaman.',
+                        regional: 'Guritan ngajarke bahwa keteguhan mental cak bukit adolah modal utama ngadapi zaman.',
+                        pedagogy: 'Pembentukan karakter tangguh (*resilience*) dan kemandirian.',
+                    }
+                ],
+                quiz: {
+                    question: 'Nilai etnopedagogi utama dalam sastra lisan Guritan adalah...',
+                    options: [
+                        { text: 'Ketangguhan karakter dan kejujuran sikap', correct: true },
+                        { text: 'Kepasrahan tanpa usaha', correct: false },
+                        { text: 'Ketergantungan pada orang lain', correct: false }
+                    ],
+                    feedbackCorrect: 'Hebat! Guritan membentuk jiwa pantang menyerah dan jujur.',
+                    feedbackWrong: 'Kurang tepat. Fokus pada pesan ketangguhan yang disampaikan.'
+                }
+            }
+        ];
+
+        /* Application Controller */
+        class SwarabumiApp {
+            constructor() {
+                this.books = BOOKS_DATABASE;
+                this.currentCategory = 'Semua';
+                this.searchQuery = '';
+                this.activeBook = null;
+                this.currentPageIndex = 0;
+                this.currentLanguage = 'ID'; // 'ID' or 'REGIONAL'
+                this.userXP = 120;
+                this.audioPlaying = false;
+                this.history = JSON.parse(localStorage.getItem('swarabumi_history') || '[]');
+
+                this.init();
+            }
+
+            init() {
+                this.renderFilterButtons();
+                this.renderBooksGrid();
+                this.updateHistoryStats();
+                
+                // Audio wave animation simulator
+                setInterval(() => {
+                    if (this.audioPlaying) {
+                        document.querySelectorAll('.audio-wave-bar').forEach(bar => {
+                            const h = Math.floor(Math.random() * 20) + 6;
+                            bar.style.height = `${h}px`;
+                        });
+                    }
+                }, 200);
+            }
+
+            /* Theme Management */
+            toggleTheme() {
+                document.documentElement.classList.toggle('dark');
+                const isDark = document.documentElement.classList.contains('dark');
+                const iconClass = isDark ? 'fa-solid fa-sun' : 'fa-solid fa-moon';
+                document.getElementById('theme-icon').className = iconClass;
+                document.getElementById('mobile-theme-icon').className = iconClass;
+            }
+
+            toggleMobileMenu() {
+                const menu = document.getElementById('mobile-menu');
+                menu.classList.toggle('hidden');
+            }
+
+            /* Navigation Views */
+            navigateTo(viewId) {
+                ['catalog', 'history', 'about'].forEach(v => {
+                    const el = document.getElementById(`view-${v}`);
+                    const navBtn = document.getElementById(`nav-${v}`);
+                    if (v === viewId) {
+                        el?.classList.remove('hidden');
+                        navBtn?.classList.add('text-brand-terracotta', 'dark:text-brand-gold', 'bg-amber-50', 'dark:bg-amber-950/40', 'font-semibold');
+                    } else {
+                        el?.classList.add('hidden');
+                        navBtn?.classList.remove('text-brand-terracotta', 'dark:text-brand-gold', 'bg-amber-50', 'dark:bg-amber-950/40', 'font-semibold');
+                    }
+                });
+
+                if (viewId === 'history') {
+                    this.renderHistoryTimeline();
+                }
+            }
+
+            /* Filter & Search Logic */
+            renderFilterButtons() {
+                const categories = ['Semua', 'Tradisi Lisan', 'Seni Pertunjukan', 'Musik Tradisional'];
+                const container = document.getElementById('filter-buttons');
+                container.innerHTML = categories.map(cat => `
+                    <button onclick="app.filterByCategory('${cat}')" 
+                        class="px-3.5 py-1.5 rounded-full text-xs font-semibold transition ${
+                            this.currentCategory === cat 
+                            ? 'bg-brand-terracotta text-white shadow-md' 
+                            : 'bg-white dark:bg-stone-800 text-slate-600 dark:text-slate-300 hover:bg-amber-100 dark:hover:bg-stone-700 border border-slate-200 dark:border-stone-700'
+                        }">
+                        ${cat}
+                    </button>
+                `).join('');
+            }
+
+            filterByCategory(cat) {
+                this.currentCategory = cat;
+                this.renderFilterButtons();
+                this.renderBooksGrid();
+            }
+
+            handleSearch(event) {
+                this.searchQuery = event.target.value.toLowerCase();
+                this.renderBooksGrid();
+            }
+
+            executeSearch() {
+                const input = document.getElementById('hero-search-input');
+                this.searchQuery = input.value.toLowerCase();
+                this.renderBooksGrid();
+            }
+
+            /* Render Books Collection */
+            renderBooksGrid() {
+                const grid = document.getElementById('books-grid');
+                let filtered = this.books.filter(b => {
+                    const matchesCat = this.currentCategory === 'Semua' || b.category === this.currentCategory;
+                    const matchesSearch = b.title.toLowerCase().includes(this.searchQuery) || 
+                                          b.synopsis.toLowerCase().includes(this.searchQuery) ||
+                                          b.region.toLowerCase().includes(this.searchQuery);
+                    return matchesCat && matchesSearch;
+                });
+
+                document.getElementById('book-count').innerText = filtered.length;
+
+                if (filtered.length === 0) {
+                    grid.innerHTML = `
+                        <div class="col-span-full py-12 text-center space-y-3">
+                            <i class="fa-solid fa-book-open-reader text-4xl text-slate-300"></i>
+                            <p class="text-sm text-slate-500">Tidak ada buku budaya yang cocok dengan pencarian Anda.</p>
+                        </div>
+                    `;
+                    return;
+                }
+
+                grid.innerHTML = filtered.map(book => `
+                    <div class="bg-white dark:bg-brand-earthCard rounded-3xl overflow-hidden border border-amber-900/10 dark:border-stone-800 shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col justify-between group">
+                        <div>
+                            <!-- Cover Image Container -->
+                            <div class="relative h-48 overflow-hidden bg-stone-200">
+                                <img src="${book.coverImg}" alt="${book.title}" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
+                                <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent"></div>
+                                <span class="absolute top-3 left-3 bg-brand-deepred/90 text-brand-gold text-[10px] font-bold px-2.5 py-1 rounded-full uppercase tracking-wider backdrop-blur-sm border border-brand-gold/30">
+                                    ${book.category}
+                                </span>
+                                <span class="absolute bottom-3 left-3 text-xs font-semibold text-amber-200 flex items-center gap-1">
+                                    <i class="fa-solid fa-location-dot text-brand-gold"></i> ${book.region}
+                                </span>
+                            </div>
+
+                            <!-- Content Details -->
+                            <div class="p-5 space-y-2">
+                                <h3 class="font-serif font-bold text-lg text-slate-800 dark:text-slate-100 line-clamp-1 group-hover:text-brand-terracotta dark:group-hover:text-brand-gold transition">
+                                    ${book.title}
+                                </h3>
+                                <p class="text-xs text-slate-500 dark:text-slate-400 line-clamp-2 leading-relaxed">
+                                    ${book.synopsis}
+                                </p>
+                            </div>
+                        </div>
+
+                        <!-- Card Action Footer -->
+                        <div class="px-5 pb-5 pt-2 flex items-center justify-between border-t border-slate-100 dark:border-stone-800/60 mt-2">
+                            <span class="text-[11px] text-slate-400 font-medium">
+                                <i class="fa-solid fa-headphones text-brand-terracotta mr-1"></i> Audio Penutur
+                            </span>
+                            <button onclick="app.openBookReader('${book.id}')" class="px-4 py-2 rounded-xl bg-amber-50 dark:bg-amber-950/50 hover:bg-brand-terracotta hover:text-white dark:hover:bg-brand-gold dark:hover:text-amber-950 text-brand-terracotta dark:text-brand-gold text-xs font-bold transition flex items-center gap-1.5">
+                                Baca Buku <i class="fa-solid fa-arrow-right text-[10px]"></i>
+                            </button>
+                        </div>
+                    </div>
+                `).join('');
+            }
+
+            /* Reader Flipbook Modal Functionality */
+            openBookReader(bookId) {
+                this.activeBook = this.books.find(b => b.id === bookId);
+                if (!this.activeBook) return;
+
+                this.currentPageIndex = 0;
+                this.currentLanguage = 'ID';
+
+                // Populate Header Info
+                document.getElementById('modal-book-title').innerText = this.activeBook.title;
+                document.getElementById('modal-book-category').innerText = `${this.activeBook.category} • ${this.activeBook.region}`;
+                document.getElementById('audio-track-name').innerText = this.activeBook.audioTrack;
+                
+                this.renderCurrentBookPage();
+                document.getElementById('reader-modal').classList.remove('hidden');
+
+                // Track to History
+                this.addToHistory(this.activeBook.title, 'Membaca E-Book Interaktif');
+            }
+
+            closeReaderModal() {
+                document.getElementById('reader-modal').classList.add('hidden');
+                this.stopAudio();
+            }
+
+            renderCurrentBookPage() {
+                const page = this.activeBook.pages[this.currentPageIndex];
+                const pageCard = document.getElementById('flipbook-page-card');
+                
+                // Flipbook Page Turn Effect
+                pageCard.classList.remove('page-turn-right', 'page-turn-left');
+                void pageCard.offsetWidth; // Trigger reflow
+                pageCard.classList.add('page-turn-right');
+
+                document.getElementById('page-section-tag').innerText = page.sectionTag;
+                document.getElementById('page-number-indicator').innerText = `Halaman ${this.currentPageIndex + 1} dari ${this.activeBook.pages.length}`;
+                
+                // Render Language Text
+                const textContent = this.currentLanguage === 'ID' ? page.indonesian : page.regional;
+                document.getElementById('page-text-content').innerHTML = `
+                    <p class="leading-relaxed font-sans">${textContent}</p>
+                `;
+
+                document.getElementById('page-pedagogy-note').innerText = page.pedagogy;
+
+                // Update Progress Bar
+                const pct = ((this.currentPageIndex + 1) / this.activeBook.pages.length) * 100;
+                document.getElementById('reading-progress-bar').style.width = `${pct}%`;
+
+                // Navigation button states
+                document.getElementById('btn-prev-page').disabled = this.currentPageIndex === 0;
+                document.getElementById('btn-prev-page').style.opacity = this.currentPageIndex === 0 ? '0.5' : '1';
+
+                this.closeGlossaryPopup();
+            }
+
+            nextPage() {
+                if (this.currentPageIndex < this.activeBook.pages.length - 1) {
+                    this.currentPageIndex++;
+                    this.renderCurrentBookPage();
+                } else {
+                    // Reached last page, prompt to open quiz
+                    this.openQuizForCurrentBook();
+                }
+            }
+
+            prevPage() {
+                if (this.currentPageIndex > 0) {
+                    this.currentPageIndex--;
+                    this.renderCurrentBookPage();
+                }
+            }
+
+            toggleBookLanguage() {
+                this.currentLanguage = this.currentLanguage === 'ID' ? 'REGIONAL' : 'ID';
+                document.getElementById('current-lang-label').innerText = this.currentLanguage === 'ID' ? 'Bahasa Indonesia' : 'Bahasa Daerah';
+                this.renderCurrentBookPage();
+            }
+
+            /* Cultural Glossary Pop-up */
+            showGlossary(term, description) {
+                document.getElementById('glossary-term-title').innerText = term;
+                document.getElementById('glossary-term-desc').innerText = description;
+                document.getElementById('glossary-popup').classList.remove('hidden');
+            }
+
+            closeGlossaryPopup() {
+                document.getElementById('glossary-popup').classList.add('hidden');
+            }
+
+            /* Audio Penutur Controls */
+            toggleAudio() {
+                this.audioPlaying = !this.audioPlaying;
+                const btn = document.getElementById('btn-audio-play');
+                if (this.audioPlaying) {
+                    btn.innerHTML = `<i class="fa-solid fa-pause"></i>`;
+                    btn.classList.add('bg-amber-600');
+                } else {
+                    btn.innerHTML = `<i class="fa-solid fa-play"></i>`;
+                    btn.classList.remove('bg-amber-600');
+                }
+            }
+
+            stopAudio() {
+                this.audioPlaying = false;
+                const btn = document.getElementById('btn-audio-play');
+                if (btn) btn.innerHTML = `<i class="fa-solid fa-play"></i>`;
+            }
+
+            /* HOTS Quiz Module */
+            openQuizForCurrentBook() {
+                if (!this.activeBook) return;
+                const q = this.activeBook.quiz;
+
+                document.getElementById('quiz-title').innerText = `Kuis HOTS: ${this.activeBook.title}`;
+                document.getElementById('quiz-question-text').innerText = q.question;
+
+                const optionsContainer = document.getElementById('quiz-options-container');
+                optionsContainer.innerHTML = q.options.map((opt, idx) => `
+                    <label class="flex items-center gap-3 p-3 rounded-xl border border-slate-200 dark:border-stone-800 hover:bg-amber-50/50 dark:hover:bg-stone-800/50 cursor-pointer transition">
+                        <input type="radio" name="quiz-option" value="${idx}" class="text-brand-terracotta focus:ring-brand-gold">
+                        <span class="text-xs text-slate-700 dark:text-slate-300 font-medium">${opt.text}</span>
+                    </label>
+                `).join('');
+
+                document.getElementById('quiz-feedback').classList.add('hidden');
+                document.getElementById('quiz-reflective-input').value = '';
+                document.getElementById('quiz-modal').classList.remove('hidden');
+            }
+
+            closeQuizModal() {
+                document.getElementById('quiz-modal').classList.add('hidden');
+            }
+
+            submitQuiz() {
+                const selected = document.querySelector('input[name="quiz-option"]:checked');
+                const feedbackBox = document.getElementById('quiz-feedback');
+
+                if (!selected) {
+                    alert('Silakan pilih salah satu jawaban terlebih dahulu!');
+                    return;
+                }
+
+                const optIdx = parseInt(selected.value);
+                const q = this.activeBook.quiz;
+                const chosenOption = q.options[optIdx];
+
+                feedbackBox.classList.remove('hidden', 'bg-green-50', 'bg-red-50', 'text-green-800', 'text-red-800', 'border-green-300', 'border-red-300');
+
+                if (chosenOption.correct) {
+                    feedbackBox.classList.add('bg-green-50', 'text-green-800', 'border-green-300');
+                    feedbackBox.innerHTML = `<strong><i class="fa-solid fa-circle-check mr-1"></i> Jawaban Tepat! (+50 XP)</strong><br>${q.feedbackCorrect}`;
+                    this.userXP += 50;
+                    document.getElementById('user-points').innerText = this.userXP;
+                    this.addToHistory(this.activeBook.title, 'Menyelesaikan Kuis HOTS (+50 XP)');
+                } else {
+                    feedbackBox.classList.add('bg-red-50', 'text-red-800', 'border-red-300');
+                    feedbackBox.innerHTML = `<strong><i class="fa-solid fa-circle-xmark mr-1"></i> Perlu Dicermati Kembali</strong><br>${q.feedbackWrong}`;
+                }
+
+                // Add reflective answer XP bonus if filled
+                const reflectionText = document.getElementById('quiz-reflective-input').value.trim();
+                if (reflectionText.length > 10) {
+                    this.userXP += 20;
+                    document.getElementById('user-points').innerText = this.userXP;
+                }
+            }
+
+            /* History & Tracking */
+            addToHistory(bookTitle, activityType) {
+                const item = {
+                    title: bookTitle,
+                    activity: activityType,
+                    date: new Date().toLocaleDateString('id-ID', { hour: '2-digit', minute: '2-digit', day: 'numeric', month: 'short' })
+                };
+                this.history.unshift(item);
+                if (this.history.length > 20) this.history.pop();
+                localStorage.setItem('swarabumi_history', JSON.stringify(this.history));
+                this.updateHistoryStats();
+            }
+
+            updateHistoryStats() {
+                document.getElementById('stat-read-count').innerText = this.history.filter(h => h.activity.includes('Membaca')).length;
+                document.getElementById('stat-quiz-count').innerText = this.history.filter(h => h.activity.includes('Kuis')).length;
+                document.getElementById('stat-xp-count').innerText = this.userXP;
+            }
+
+            renderHistoryTimeline() {
+                const container = document.getElementById('history-list-container');
+                if (this.history.length === 0) {
+                    container.innerHTML = `
+                        <p class="text-xs text-slate-400 italic">Belum ada aktivitas membaca. Mulailah menjelajahi buku budaya!</p>
+                    `;
+                    return;
+                }
+
+                container.innerHTML = this.history.map(item => `
+                    <div class="flex items-center justify-between p-3 rounded-2xl bg-amber-50/50 dark:bg-stone-900/40 border border-slate-100 dark:border-stone-800 text-xs">
+                        <div class="flex items-center gap-3">
+                            <div class="w-8 h-8 rounded-xl bg-brand-terracotta/10 text-brand-terracotta dark:text-brand-gold flex items-center justify-center font-bold">
+                                <i class="fa-solid fa-bookmark"></i>
+                            </div>
+                            <div>
+                                <h5 class="font-bold text-slate-800 dark:text-slate-200">${item.title}</h5>
+                                <span class="text-[10px] text-slate-400">${item.activity}</span>
+                            </div>
+                        </div>
+                        <span class="text-[10px] text-slate-400 font-medium">${item.date}</span>
+                    </div>
+                `).join('');
+            }
+
+            clearHistory() {
+                this.history = [];
+                localStorage.removeItem('swarabumi_history');
+                this.updateHistoryStats();
+                this.renderHistoryTimeline();
+            }
+        }
+
+        // Initialize App on DOM Load
+        let app;
+        window.addEventListener('DOMContentLoaded', () => {
+            app = new SwarabumiApp();
+        });
+    </script>
+</body>
+</html>
